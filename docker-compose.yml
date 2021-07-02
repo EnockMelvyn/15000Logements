@@ -1,0 +1,35 @@
+version: '3'
+services:
+    keycloak-15000:
+        image: keycloak-15000lgmts
+        ports:
+            - 8082:8080
+    db-15000:
+        image: mysql-15000lgmts
+        environment:
+            MYSQL_ROOT_PASSWORD: gaara75R    
+            MYSQL_DATABASE: db_15000
+        ports:
+            - 8085:3306
+
+    backend-15000:
+        image: backend-15000lgmts
+        environment:
+            KEYCLOAK_URL: http://keycloak-15000:8082/auth
+            DATASOURCE_URL: jdbc:mysql://db-15000:8085/db_15000?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+        ports:
+            - 8084:8080
+        depends_on:
+            - db-15000
+            
+    
+    frontend-15000:
+        image: frontend-15000lgmts
+        environment:
+            KEYCLOAK_URL: htttp://keycloak-15000:8082/auth
+            BACKEND_URL: http://backend-15000:8084/bhciLogement
+        ports:
+            - 8083:80
+        depends_on: 
+            - keycloak-15000
+
