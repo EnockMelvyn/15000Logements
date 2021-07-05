@@ -25,15 +25,16 @@ public class AppUserService implements UserDetailsService{
     private final ConfirmationTokenService confirmationTokenService;
 
     @Override
-    public UserDetails loadUserByUsername(String email)
+    public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
-        return appUserRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND, email)));
+        return appUserRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND, username)));
     }
+
 
     public String signUpUser(AppUser appUser) {
        boolean userExists =  appUserRepository
-               .findByEmail(appUser.getEmail())
+               .findByUsername(appUser.getUsername())
                 .isPresent();
 
        if (userExists) {
@@ -62,10 +63,10 @@ public class AppUserService implements UserDetailsService{
         return token;
     }
 
-    public void enableAppUser( String email){
+    public void enableAppUser( String username){
 
-        AppUser appUser = appUserRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND, email)));
+        AppUser appUser = appUserRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND, username)));
 
         appUser.setEnabled(Boolean.TRUE);
 

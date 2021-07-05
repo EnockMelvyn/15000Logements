@@ -43,21 +43,25 @@ public class ClientLogementController {
     }
 
     @GetMapping(path = "{idClient}")
+    @PreAuthorize("hasRole('USER')")
     public List<ClientLogementDTO> getClientLogementsByClient(@PathVariable("idClient") Long idClient){
         return clientLogementTransformer.convertToDto(clientLogementService.getClientLogementByClient(idClient));
     }
 
     @PutMapping(path = "{idClientLogement}")
+    @PreAuthorize("hasRole('USER')")
     public void updateClientLogement(@PathVariable("idClientLogement") Long idClientLogement,
                              @RequestParam Long logementId){
         clientLogementService.updateClientLogement(idClientLogement, logementId);
     }
 
     @PutMapping(path = "validate/{idClientLogement}")
+    @PreAuthorize("hasRole('USER')")
     public void validateLogementClient(@PathVariable("idClientLogement") Long idClientLogement) {
         clientLogementService.validateLogementClient(idClientLogement, true);
     }
     @PutMapping(path = "validateAllSelected")
+    @PreAuthorize("hasRole('USER')")
     public void validateLogementsClient(@RequestBody List<ClientLogementDTO> clientLogements) {
         List<Long> listIds = new ArrayList<>();
         clientLogements.stream().forEach(v ->{
@@ -67,10 +71,12 @@ public class ClientLogementController {
     }
 
     @PutMapping(path = "refuse/{idClientLogement}")
+    @PreAuthorize("hasRole('USER')")
     public void refuseLogementClient(@PathVariable("idClientLogement") Long idClientLogement) {
         clientLogementService.validateLogementClient(idClientLogement, false);
     }
     @PutMapping(path = "refuseAllSelected")
+    @PreAuthorize("hasRole('USER')")
     public void refuseLogementsClient(@RequestBody List<ClientLogementDTO> clientLogements) {
         List<Long> listIds = new ArrayList<>();
         clientLogements.stream().forEach(v ->{

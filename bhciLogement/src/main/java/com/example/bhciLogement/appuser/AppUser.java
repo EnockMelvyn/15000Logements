@@ -72,7 +72,7 @@ public class AppUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
 
     public String getLastName() {
@@ -100,6 +100,6 @@ public class AppUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return !enabled;
     }
 }

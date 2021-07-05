@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @AllArgsConstructor
 @RestController
 @RequestMapping(path = "api/auth/")
@@ -89,19 +90,19 @@ public class AppUserController {
 //        Set<AppUserRole> roles = new HashSet<>();
 
         if (strRoles == null) {
-            AppUserRole userRole = AppUserRole.USER;
+            AppUserRole userRole = AppUserRole.ROLE_USER;
             user.setAppUserRole(userRole);
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
                     case "admin":
-                        AppUserRole adminRole = AppUserRole.ADMIN;
+                        AppUserRole adminRole = AppUserRole.ROLE_ADMIN;
                         user.setAppUserRole(adminRole);
 
                         break;
 
                     default:
-                        AppUserRole userRole = AppUserRole.USER;
+                        AppUserRole userRole = AppUserRole.ROLE_USER;
                         user.setAppUserRole(userRole);
                 }
             });
